@@ -1,8 +1,6 @@
-from django.contrib import admin
-from django.urls import path,include
-from django.conf import settings
-from django.contrib.staticfiles.urls import static 
+from .views import create_post
+from django.urls import path
 urlpatterns = [
-    path('/create_post/',include('user.urls')),
+    path('create_post/',create_post,name='create_post'),
 
 ]
