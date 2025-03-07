@@ -5,6 +5,8 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from './App.jsx'
 import store from './store/store.js';
+import Search from './components/Search/Search.jsx';
+import Post from './components/Post/Post.jsx';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -12,7 +14,15 @@ const router=createBrowserRouter([
     children:[
         {
           index: true,
-          element: <App />,
+          element: <Post />,
+        },
+        {
+          path:'/post',
+          element: <Post />,
+        },
+        {
+          path:'/search',
+          element: <Search />,
         },
     ],
   },

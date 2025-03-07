@@ -1,14 +1,18 @@
+import { Outlet } from "react-router-dom"
+import HomeBar from "./components/body/HomeBar"
 import Header from "./components/header/Header"
 
 function App() {
   
   return (
-      <div className='grid grid-flow-col text-white grid-cols-4 md:grid-cols-12 gap-1  '>
+      <div className='grid grid-flow-col bg-black text-white grid-cols-4 md:grid-cols-12 gap-1  '>
           <Header /> 
-        <div className="bg-[#200d21] col-span-3 md:col-span-7">
-          grid2
+        <div className="bg-[#141624] col-span-3 p-3 md:col-span-6 rounded">
+          <HomeBar />
+          <hr />
+          <Outlet />
         </div>
-        <div className="hidden md:block bg-[#200d21] md:col-span-4">
+        <div className="hidden md:block p-3 rounded bg-[#141624] md:col-span-5">
           grid3
         </div>
 
