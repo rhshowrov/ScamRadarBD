@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ImageContainer from "./ImageContainer";
 import TagContainer from "./TagContainer";
+import LikeCommentContainer from "./LikeCommentContainer";
 
 const PostCard = () => {
   return (
@@ -16,8 +17,8 @@ const PostCard = () => {
         <div className="col-span-5 md:col-span-7 flex flex-col ">
           <div className="font-bold">Rakibul Hasan</div>
           <div className="font-thin mb-3">06 Feb 2025 10:25 PM</div>
-          <div className="p-2 w-1/3 rounded bg-purple-500  text-white text-sm font-medium">
-         Type: Online Scam
+          <div className="p-2 w-1/2 rounded-[5px] bg-purple-500 text-center  text-white text-sm font-medium">
+         Online Scam
         </div>
         </div>
         
@@ -31,7 +32,8 @@ const PostCard = () => {
         </div>
       <ImageContainer />
       <TagContainer />
-      <div>5</div>
+      <hr />
+      <LikeCommentContainer />
     </div>
   );
 };

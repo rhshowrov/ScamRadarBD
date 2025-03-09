@@ -2,7 +2,7 @@ import PostCard from "./PostCard";
 
 const Post=()=>{
     return (
-        <div className='flex-'>
+        <div className='flex'>
             <PostCard />
         </div>
     )

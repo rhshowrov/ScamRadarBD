@@ -7,6 +7,8 @@ import App from './App.jsx'
 import store from './store/store.js';
 import Search from './components/Search/Search.jsx';
 import Post from './components/Post/Post.jsx';
+import Login from './components/Login.jsx';
+import SignUp from './SignUp.jsx';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -25,6 +27,14 @@ const router=createBrowserRouter([
           element: <Search />,
         },
     ],
+  },
+  {
+    path:'/login',
+    element:<Login />,
+  },
+  {
+    path:'/signup',
+    element:<SignUp />,
   },
 ])
 createRoot(document.getElementById('root')).render(

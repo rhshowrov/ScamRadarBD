@@ -13,6 +13,8 @@ from .serializers import UserSerializer
 from .models import CustomUser
 from django.contrib.auth import authenticate
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
 def UserCreationView(request):
     # Pass request.data to the serializer
     serializer = UserSerializer(data=request.data)
