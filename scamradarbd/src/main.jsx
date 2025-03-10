@@ -9,6 +9,7 @@ import Search from './components/Search/Search.jsx';
 import Post from './components/Post/Post.jsx';
 import Login from './components/Login.jsx';
 import SignUp from './SignUp.jsx';
+import Logout from './components/Logout.jsx';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -35,6 +36,10 @@ const router=createBrowserRouter([
   {
     path:'/signup',
     element:<SignUp />,
+  },
+  {
+    path:'/logout',
+    element:<Logout />,
   },
 ])
 createRoot(document.getElementById('root')).render(

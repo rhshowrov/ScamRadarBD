@@ -26,8 +26,20 @@ def UserCreationView(request):
         # Return the created user data
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     
-    # Return validation errors if the data is invalid
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Return the first validation error if the data is invalid
+    if serializer.errors:
+        first_error_key = next(iter(serializer.errors))  # Get the first key
+        first_error_message = serializer.errors[first_error_key][0]  # Get the first error message
+        return Response(
+            {"error": first_error_message},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # If no errors are found (unlikely), return a generic error
+    return Response(
+        {"error": "An unknown error occurred."},
+        status=status.HTTP_400_BAD_REQUEST
+    )
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

@@ -5,12 +5,15 @@ export const loginUser=createAsyncThunk('api/login',
     async({username,password},{rejectWithValue})=>{
         try{
             const res=await api.post('api/user/signin/',{username,password})
+            console.log(res.data)
             return  res.data
         }catch(error){
             if (!error.response){
                 return rejectWithValue('Check Server Status or internet!')
             }
-            return rejectWithValue(error.response.data)
+            console.log(error.response.data.error);
+            
+            return rejectWithValue(error.response.data.error)
         }
     }
 )
@@ -23,12 +26,14 @@ export const registerUser=createAsyncThunk('api/signup',
         }
         try{
             const res=await api.post('api/user/signup/',{username,email,password,mobile})
+            console.log(res.data)
             return  res.data
         }catch(error){
             if (!error.response){
                 return rejectWithValue('Check Server Status or internet!')
             }
-            return rejectWithValue(error.response.data)
+            console.log(error.response.data);
+            return rejectWithValue(error.response.data.error)
         }
     }
 )
@@ -39,12 +44,20 @@ const initialState={
     token:null,
     loading:false,
     error:null,
+    success:null,
 }
 
 const authSlice=createSlice({
     name:'auth',
     initialState,
     reducers:{
+        logOut:(state)=>{
+            localStorage.clear()
+            state.isAuthenticated=false
+        },
+        resetState:(state)=>{
+            state.error=null
+        },
 
     },
     extraReducers:(builder)=>{
@@ -67,6 +80,8 @@ const authSlice=createSlice({
             .addCase(registerUser.fulfilled,(state)=>{
                 localStorage.clear()
                 state.loading=false
+                state.error=null
+                state.success="User Created. Please Login again"
             })
             .addCase(registerUser.pending,(state)=>{
                 state.loading=true

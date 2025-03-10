@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { loginUser } from "../store/authSlice";
+import { Link, Navigate } from "react-router-dom";
+import  { authSliceActions, loginUser } from "../store/authSlice";
 
 const Login = () => {
   const { isAuthenticated, loading, error } = useSelector(
@@ -10,10 +10,15 @@ const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  useEffect(()=>{
+   return()=>{
+    dispatch(authSliceActions.resetState())
+   }
+  },[])
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
+
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -74,7 +79,7 @@ const Login = () => {
                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>{error}</span>
+            <span>{typeof error === "object" ? error.message : error}</span>
           </div>
         )}
 
