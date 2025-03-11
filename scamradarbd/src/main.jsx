@@ -10,6 +10,7 @@ import Post from './components/Post/Post.jsx';
 import Login from './components/Login.jsx';
 import SignUp from './SignUp.jsx';
 import Logout from './components/Logout.jsx';
+import CreatePost from './components/createpost/CreatePost.jsx';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -26,6 +27,10 @@ const router=createBrowserRouter([
         {
           path:'/search',
           element: <Search />,
+        },
+        {
+          path:'/create-post',
+          element: <CreatePost/>,
         },
     ],
   },

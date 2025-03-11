@@ -25,7 +25,7 @@ const Header = () => {
           <HomeIcon />
         </NavLink>
         <NavLink
-          to="/add"
+          to="/create-post"
           className={({ isActive }) =>
             `size-7 mt-2 mr-2 hover:border ${
               isActive ? "scale-130" : "fill-none text-gray-400"

@@ -5,7 +5,7 @@ import LikeCommentContainer from "./LikeCommentContainer";
 
 const PostCard = () => {
   return (
-    <div className="grid grid-row-5 rounded bg-[#010914] p-2 mt-2 border mb-2">
+    <div className="grid grid-row-5 rounded bg-base-100 p-2 mt-2  mb-2">
       <div className="grid grid-cols-6 md:grid-cols-8 mb-3">
         <div className="col-span-1">
           <img

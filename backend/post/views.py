@@ -4,7 +4,9 @@ from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PostCreateSerializer
-
+from rest_framework import viewsets
+from .models import Place
+from .serializers import PlaceSerializer
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -20,4 +22,8 @@ def create_post(request):
         # Return errors if the data is invalid
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+class PlaceViewSet(viewsets.ModelViewSet):
+    queryset=Place.objects.all()
+    serializer_class=PlaceSerializer
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
