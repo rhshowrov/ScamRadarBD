@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api/api";
 
-const getPlace=createAsyncThunk('api/getplace',
+export const getPlace=createAsyncThunk('api/getplace',
     async(__,{rejectWithValue})=>{
         try{
-            const res=await api.post('api/post/getplace/')
+            const res=await api.get('api/post/getplace/')
             console.log(res.data)
             return  res.data
         }catch(error){
@@ -18,7 +18,7 @@ const getPlace=createAsyncThunk('api/getplace',
     }
 )
 const initialState={
-    place:[],
+    places:[],
     status:null,
     error:null,
     loading:false,
@@ -31,9 +31,10 @@ const placeSlice=createSlice({
     },
     extraReducers:(builder)=>{
         builder
-             .addCase(getPlace.fullfilled,(state,action)=>{
-                state.place=action.payload
-                state.status='Successful'
+             .addCase(getPlace.fulfilled,(state,action)=>{
+                state.places=action.payload
+                state.status=true
+                state.loading=false
              })
              .addCase(getPlace.pending,(state)=>{
                 state.loading=true

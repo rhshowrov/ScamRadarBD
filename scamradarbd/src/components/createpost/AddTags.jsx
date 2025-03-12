@@ -43,7 +43,7 @@ const AddTags = ({ tags, addTag }) => {
           <input
             className="input w-[100px]"
             value={tag}
-            required
+            required={!tags}
             placeholder="tags"
             onChange={(e) => setTag(e.target.value)}
           />

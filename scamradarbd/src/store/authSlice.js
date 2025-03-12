@@ -40,7 +40,7 @@ export const registerUser=createAsyncThunk('api/signup',
 
 
 const initialState={
-    isAuthenticated:true,
+    isAuthenticated:false,
     token:null,
     loading:false,
     error:null,
