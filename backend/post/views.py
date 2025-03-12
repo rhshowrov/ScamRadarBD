@@ -13,6 +13,7 @@ from .serializers import PlaceSerializer
 def create_post(request):
     if request.method == 'POST':
         # Pass the request context to the serializer
+        print(request.data)
         serializer = PostCreateSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             # Save the post with the authenticated user

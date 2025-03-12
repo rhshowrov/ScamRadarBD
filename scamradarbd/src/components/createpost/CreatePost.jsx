@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import AddTags from "./AddTags";
 import AddPlace from "./AddPlace";
 import AddImage from "./AddImage";
+import { createPost } from "../../store/postSlice";
+
 
 const CreatePost = () => {
+  const { success, error, loading } = useSelector((store) => store.post);
+  const dispatch = useDispatch();
+
   const [details, setDetails] = useState("");
   const [tags, setTags] = useState([]);
   const [link, setLink] = useState("");
@@ -20,6 +26,8 @@ const CreatePost = () => {
   const addImg = (files) => {
     setImage([...img, ...files]); // Append new files to the existing `img` array
   };
+
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,19 +40,31 @@ const CreatePost = () => {
     formData.append("location", location);
     formData.append("place", place);
 
-    // Append tags as a individual fields if needed
-    formData.append("tags", JSON.stringify(tags));
+    // Append tags as individual fields
     tags.forEach((tag, index) => {
-      formData.append(`tags`, tag);
+      formData.append("tags", tag);
     });
+
     // Append each image file
     img.forEach((file, index) => {
-      formData.append(`images`, file); // Use `images` as the field name
+      formData.append("images", file); // Use `images` as the field name
     });
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value); // Logs: name John Doe, email john@example.com
-    }
+
+    // Dispatch the `createPost` action with the FormData
+    dispatch(createPost(formData));
   };
+
+  // Reset form fields on success
+  useEffect(() => {
+    if (success) {
+      setDetails("");
+      setTags([]);
+      setLink("");
+      setLocation("");
+      setPlace();
+      setImage([]);
+    }
+  }, [success]);
 
   return (
     <div className="flex flex-col card shadow-sm bg-base-100 mt-2 p-3">
@@ -52,6 +72,25 @@ const CreatePost = () => {
         Create Your Post
       </h1>
       <hr />
+      {/* Display error message */}
+      {error && (
+        <div className="alert alert-error shadow-lg mt-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Error: {error}</span>
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="form-control">
         <fieldset className="fieldset">
           <legend className="fieldset-legend text-lg">
@@ -89,7 +128,7 @@ const CreatePost = () => {
           />
         </fieldset>
         <AddPlace setPlace={setPlace} />
-        <AddImage addImg={addImg} />{" "}
+        <AddImage addImg={addImg} />
         {/* Display the selected images for debugging */}
         <div>
           {img && img.length > 0 && (
@@ -104,8 +143,19 @@ const CreatePost = () => {
           )}
         </div>
         <div className="flex flex-row justify-end">
-          <button type="submit" className="btn w-1/3 btn-primary mt-4">
-            Submit Post
+          <button
+            type="submit"
+            className="btn w-1/3 btn-primary mt-4"
+            disabled={loading} // Disable the button when loading
+          >
+            {loading ? (
+              <>
+                <span className="loading loading-spinner"></span>
+                Submitting...
+              </>
+            ) : (
+              "Submit Post"
+            )}
           </button>
         </div>
       </form>
