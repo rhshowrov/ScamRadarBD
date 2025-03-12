@@ -5,7 +5,6 @@ import AddPlace from "./AddPlace";
 import AddImage from "./AddImage";
 import { createPost } from "../../store/postSlice";
 
-
 const CreatePost = () => {
   const { success, error, loading } = useSelector((store) => store.post);
   const dispatch = useDispatch();

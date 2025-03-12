@@ -58,7 +58,9 @@ const AddTags = ({ tags, addTag }) => {
           tags.map((tag, index) => (
             <button
               key={index} // Add a unique key for each tag
-              className={`btn h-[20px] mr-1 mt-1 ${tagColors[tag] || "btn-primary"}`} // Use the assigned color or a default
+              className={`btn h-[20px] mr-1 mt-1 ${
+                tagColors[tag] || "btn-primary"
+              }`} // Use the assigned color or a default
             >
               {`#${tag}`}
             </button>

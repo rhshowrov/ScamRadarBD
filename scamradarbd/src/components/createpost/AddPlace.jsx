@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlace } from "../../store/place";
 
-const AddPlace = ({setPlace}) => {
+const AddPlace = ({ setPlace }) => {
   const [selectedValue, setSelectedValue] = useState("");
 
   // Access places, status, error, and loading from the Redux store
-  const { places, status, error, loading } = useSelector((store) => store.place);
+  const { places, status, error, loading } = useSelector(
+    (store) => store.place
+  );
 
   const dispatch = useDispatch();
 
@@ -16,12 +18,10 @@ const AddPlace = ({setPlace}) => {
   }, [dispatch]);
 
   const handleSelect = (e) => {
-    setSelectedValue(parseInt(e.target.value));// Convert to integer if needed
+    setSelectedValue(parseInt(e.target.value)); // Convert to integer if needed
     console.log(selectedValue);
-    setPlace(selectedValue) 
+    setPlace(selectedValue);
   };
-
-
 
   return (
     <div>
@@ -72,8 +72,6 @@ const AddPlace = ({setPlace}) => {
             ))}
           </select>
         )}
-
-        
       </fieldset>
     </div>
   );
