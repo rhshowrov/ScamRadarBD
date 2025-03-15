@@ -25,7 +25,7 @@ class Post(models.Model):
     details = models.TextField(max_length=1000,blank=False)
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
     location = models.CharField(max_length=100)
-    link = models.URLField(blank=True, null=True)
+    link = models.CharField(max_length=50,blank=True, null=True)
     place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

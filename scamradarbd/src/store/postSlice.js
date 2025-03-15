@@ -23,15 +23,33 @@ export const createPost = createAsyncThunk(
     }
   );
 
+export const postList=createAsyncThunk('api/getposts',
+  async(__,{rejectWithValue})=>{
+    try{
+      const res=await api.get("api/post/get_posts/")
+      console.log(res.data);
+      
+      return res.data
+    }catch(error){
+      if (!error.response) {
+        return rejectWithValue("Check Server Status or Internet!");
+      }
+      console.log(error.response);
+      return rejectWithValue(error.response.data.error);
+    }
+    }
+  )
+
+
 const initialState={
-    post:[],
+    posts:[],
     error:null,
     loading:null,
     success:null,
 }
 
 const postSlice=createSlice({
-    name:'post',
+    name:'posts',
     initialState,
     reducers:{
         
@@ -50,6 +68,17 @@ const postSlice=createSlice({
                             state.loading=false
                             state.error=action.payload
                         })
+                        .addCase(postList.fulfilled,(state,action)=>{
+                          state.loading=false
+                          state.posts= action.payload   
+                      })
+                      .addCase(postList.pending,(state)=>{
+                          state.loading=true
+                      })
+                      .addCase(postList.rejected,(state,action)=>{
+                          state.loading=false
+                          state.error=action.payload
+                      })
 
     }
 })

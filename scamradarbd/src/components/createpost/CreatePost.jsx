@@ -8,7 +8,6 @@ import { createPost } from "../../store/postSlice";
 const CreatePost = () => {
   const { success, error, loading } = useSelector((store) => store.post);
   const dispatch = useDispatch();
-
   const [details, setDetails] = useState("");
   const [tags, setTags] = useState([]);
   const [link, setLink] = useState("");
@@ -29,16 +28,13 @@ const CreatePost = () => {
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Create a FormData object
     const formData = new FormData();
-
     // Append all form values to the FormData object
     formData.append("details", details);
     formData.append("link", link);
     formData.append("location", location);
     formData.append("place", place);
-
     // Append tags as individual fields
     tags.forEach((tag, index) => {
       formData.append("tags", tag);
@@ -48,7 +44,6 @@ const CreatePost = () => {
     img.forEach((file, index) => {
       formData.append("images", file); // Use `images` as the field name
     });
-
     // Dispatch the `createPost` action with the FormData
     dispatch(createPost(formData));
   };
@@ -63,7 +58,7 @@ const CreatePost = () => {
       setPlace();
       setImage([]);
     }
-  }, [success]);
+  }, [success, error, loading]);
 
   return (
     <div className="flex flex-col card shadow-sm bg-base-100 mt-2 p-3">
@@ -71,6 +66,26 @@ const CreatePost = () => {
         Create Your Post
       </h1>
       <hr />
+      {/*success message */}
+      {success && (
+        <div className="alert alert-success shadow-lg mt-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <span>Success! Your post has been created.</span>
+        </div>
+      )}
+
       {/* Display error message */}
       {error && (
         <div className="alert alert-error shadow-lg mt-4">

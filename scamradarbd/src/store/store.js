@@ -7,7 +7,7 @@ const store=configureStore({
     reducer:{
         auth:authSlice.reducer,
         place:placeSlice.reducer,
-        post:postSlice.reducer,
+        posts:postSlice.reducer,
     }
 })
 

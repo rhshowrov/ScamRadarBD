@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPlace } from "../../store/place";
 
 const AddPlace = ({ setPlace }) => {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState(null); // Initialize to null
 
   // Access places, status, error, and loading from the Redux store
   const { places, status, error, loading } = useSelector(
@@ -17,10 +17,18 @@ const AddPlace = ({ setPlace }) => {
     dispatch(getPlace());
   }, [dispatch]);
 
+  // Update selectedValue when places data is available
+  useEffect(() => {
+    if (places.length > 0) {
+      setSelectedValue(places[0].id); // Set to the first place's ID
+      setPlace(places[0].id); // Update the parent component's state
+    }
+  }, [places, setPlace]);
+
   const handleSelect = (e) => {
-    setSelectedValue(parseInt(e.target.value)); // Convert to integer if needed
-    console.log(selectedValue);
-    setPlace(selectedValue);
+    const value = parseInt(e.target.value); // Convert to integer if needed
+    setSelectedValue(value);
+    setPlace(value); // Update the parent component's state
   };
 
   return (
@@ -61,7 +69,7 @@ const AddPlace = ({ setPlace }) => {
         {/* Show select dropdown only if status is true and no error */}
         {status && !error && !loading && (
           <select
-            value={selectedValue} // Controlled component
+            value={selectedValue || ""} // Fallback to empty string if selectedValue is null
             className="select select-bordered w-1/3"
             onChange={handleSelect}
           >

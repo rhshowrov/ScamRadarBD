@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Post, Tag, Place, PostImage
-
+from user.models import CustomUser
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -65,4 +65,10 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 
 
-    
+class PostListSerializer(serializers.ModelSerializer):
+    user=serializers.CharField(source='user.username')
+    place=serializers.CharField(source='place.name')
+    tags = serializers.StringRelatedField(many=True)
+    class Meta:
+        model=Post
+        exclude = ['updated_at','status']
