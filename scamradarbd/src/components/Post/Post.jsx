@@ -29,7 +29,7 @@ const Post = () => {
       {!loading && !error && posts.length > 0 && (
         <div className="w-full max-w-3xl flex flex-col gap-4">
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <PostCard className="w-auto" key={post.id} post={post} />
           ))}
         </div>
       )}

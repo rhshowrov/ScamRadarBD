@@ -5,7 +5,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PostCreateSerializer
 from rest_framework import viewsets
-from .models import Place,Post,PostVote
+from .models import Place,Post,PostVote,PostImage,PostComment
 from .serializers import PlaceSerializer,PostListSerializer
 from django.db.models import Count, Q
 @api_view(['POST'])
@@ -32,8 +32,8 @@ class PlaceViewSet(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication]
 
 @api_view(["GET"])
-@authentication_classes([])
-@permission_classes([AllowAny])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def PostListView(request):
     try:
         postList=Post.objects.all()
@@ -44,31 +44,101 @@ def PostListView(request):
 
 
 @api_view(['GET'])
-@authentication_classes([])
-@permission_classes([AllowAny])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def getVoteCount(request, id):
     try:
-        # Get the post object or raise a 404 if it doesn't exist
+        # Get the post object or return 404
         post = Post.objects.get(pk=id)
+        user = request.user  # Authenticated user
 
-        # Use aggregation to count likes and dislikes in a single query
+        # Aggregate likes and dislikes
         votes = PostVote.objects.filter(post=post).aggregate(
             likes=Count('pk', filter=Q(vote_type='like')),
             dislikes=Count('pk', filter=Q(vote_type='dislike'))
         )
+        comments=PostComment.objects.filter(post=post).count()
+        # Ensure default values if no votes exist
+        like_count = votes.get('likes', 0)
+        dislike_count = votes.get('dislikes', 0)
+
+        # Check if the authenticated user has liked the post
+        likeStatus = PostVote.objects.filter(post=post, user=user, vote_type='like').exists()
 
         return Response({
             'id': post.id,
-            'likes': votes['likes'],
-            'dislikes': votes['dislikes']
+            'likes': like_count,
+            'dislikes': dislike_count,
+            'likeStatus': likeStatus,
+            "comments":comments,
         }, status=status.HTTP_200_OK)
 
     except Post.DoesNotExist:
         return Response({'error': 'Post not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     except Exception as e:
-        # Log the error for debugging (optional)
-        print(f"Error in getVoteCount: {str(e)}")
         return Response({'error': 'An error occurred while fetching vote count.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def likeDislike(request, id):
+    try:
+        # Get the post object or return 404
+        post = Post.objects.get(pk=id)
+        user = request.user  # Authenticated user
+
+        # Check if the user has already voted
+        vote_status = PostVote.objects.filter(post=post, user=user).first()
+
+        if vote_status:
+            # Toggle between 'Like' and 'Dislike'
+            if vote_status.vote_type == 'like':
+                vote_status.vote_type = 'dislike'
+            else:
+                vote_status.vote_type = 'like'
+            vote_status.save()
+        else:
+            # If no previous vote, create a new like
+            PostVote.objects.create(post=post, user=user, vote_type='like')
+
+        # Return the updated like status
+        like_status = PostVote.objects.filter(post=post, user=user, vote_type='like').exists()
+        # Aggregate likes and dislikes
+        votes = PostVote.objects.filter(post=post).aggregate(
+            likes=Count('pk', filter=Q(vote_type='like')),
+            dislikes=Count('pk', filter=Q(vote_type='dislike'))
+        )
+        comments=PostComment.objects.filter(post=post).count()
+        # Ensure default values if no votes exist
+        like_count = votes.get('likes', 0)
+        dislike_count = votes.get('dislikes', 0)
+        return Response({
+            'id': post.id,
+            'likes': like_count,
+            'dislikes': dislike_count,
+            'likeStatus': like_status,
+            "comments":comments,
+        }, status=status.HTTP_200_OK)
+
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        return Response({'error': 'An error occurred while updating vote.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def postImageList(request,id):
+    try:
+        post=Post.objects.get(pk=id)
+        postImages=PostImage.objects.filter(post=post)
+        image_urls=[request.build_absolute_uri(postImage.image.url) for postImage in postImages]
+        return Response({'images':image_urls},status=status.HTTP_200_OK)
+    except Exception as e:
+        # Log the error for debugging (optional)
+        print(f"Error in getVoteCount: {str(e)}")
+        return Response({'error': 'An error occurred'}, status=status.HTTP_400_BAD_REQUEST)

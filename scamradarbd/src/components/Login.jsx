@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import  { authSliceActions, loginUser } from "../store/authSlice";
+import { authSliceActions, loginUser } from "../store/authSlice";
 
 const Login = () => {
   const { isAuthenticated, loading, error } = useSelector(
@@ -10,15 +10,14 @@ const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(()=>{
-   return()=>{
-    dispatch(authSliceActions.resetState())
-   }
-  },[])
+  useEffect(() => {
+    return () => {
+      dispatch(authSliceActions.resetState());
+    };
+  }, []);
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
-
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -98,11 +97,12 @@ const Login = () => {
           </button>
         </div>
         <div className="flex flex-row mt-3">
-        <p>Don't have an Account?</p> 
-        <Link className="link" to='/signup'>Signup </Link>
-      </div>
+          <p>Don't have an Account?</p>
+          <Link className="link" to="/signup">
+            Signup{" "}
+          </Link>
+        </div>
       </form>
-      
     </div>
   );
 };

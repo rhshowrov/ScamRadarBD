@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const TagContainer = ({ tags }) => {
   // Predefined list of Tailwind CSS color classes
   const colors = [
-    'bg-blue-500 text-white',
-    'bg-gray-500 text-white',
-    'bg-purple-500 text-white',
-    'bg-gray-300 text-gray-800',
-    'bg-cyan-500 text-white',
-    'bg-green-500 text-white',
-    'bg-yellow-500 text-yellow-900',
-    'bg-red-500 text-white',
+    "bg-blue-500 text-white",
+    "bg-gray-500 text-white",
+    "bg-purple-500 text-white",
+    "bg-gray-300 text-gray-800",
+    "bg-cyan-500 text-white",
+    "bg-green-500 text-white",
+    "bg-yellow-500 text-yellow-900",
+    "bg-red-500 text-white",
   ];
 
   return (

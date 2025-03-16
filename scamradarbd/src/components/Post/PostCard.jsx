@@ -27,14 +27,12 @@ const PostCard = ({ post }) => {
 
       <div className="mt-2 mb-2 flex flex-col">
         {/* Display truncated post details */}
-        {truncatedDetails}
-        {/* Link to the full post details */}
-        <Link className="text-end text-primary" to={`/posts/${post.id}`}> See Details....</Link>
+        <Link to={`/posts/details/${post.id}`}>{truncatedDetails} </Link>
       </div>
-      <ImageContainer />
+      <ImageContainer id={post.id} />
       <TagContainer tags={post.tags} />
       <hr />
-      <LikeCommentContainer />
+      <LikeCommentContainer id={post.id} />
     </div>
   );
 };
