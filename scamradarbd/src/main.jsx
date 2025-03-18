@@ -2,7 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import App from "./App.jsx";
 import store from "./store/store.js";
 import Search from "./components/Search/Search.jsx";
@@ -11,6 +15,7 @@ import Login from "./components/Login.jsx";
 import SignUp from "./SignUp.jsx";
 import Logout from "./components/Logout.jsx";
 import CreatePost from "./components/createpost/CreatePost.jsx";
+import PostDetails from "./components/Post/PostDetails.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,18 +23,22 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Navigate to="posts" replace />, // Redirect `/` to `/posts`
+      },
+      {
+        path: "posts",
         element: <Post />,
       },
       {
-        path: "/post",
-        element: <Post />,
+        path: "posts/details/:id",
+        element: <PostDetails />,
       },
       {
-        path: "/search",
+        path: "search",
         element: <Search />,
       },
       {
-        path: "/create-post",
+        path: "create-post",
         element: <CreatePost />,
       },
     ],

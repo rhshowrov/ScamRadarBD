@@ -15,7 +15,7 @@ const Header = () => {
       <img className="rounded-full border-b-2" src="/logo.png" alt="logo" />
       <div className="flex flex-col items-end mt-5">
         <NavLink
-          to="/"
+          to="/posts"
           className={({ isActive }) =>
             `size-7 mt-2 mr-2  hover:border ${
               isActive ? "scale-130" : "fill-none text-gray-400"

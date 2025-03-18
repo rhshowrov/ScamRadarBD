@@ -27,7 +27,6 @@ export const postList=createAsyncThunk('api/getposts',
   async(__,{rejectWithValue})=>{
     try{
       const res=await api.get("api/post/get_posts/")
-      console.log(res.data);
       
       return res.data
     }catch(error){

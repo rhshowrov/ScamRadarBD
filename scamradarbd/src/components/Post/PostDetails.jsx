@@ -1,19 +1,11 @@
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ImageContainer from "./ImageContainer";
 import TagContainer from "./TagContainer";
 import LikeCommentContainer from "./LikeCommentContainer";
 import PostHeader from "./PostHeader";
-
-const PostCard = ({ post }) => {
-  // Truncate the post details to 200 characters
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  };
-
-  const truncatedDetails = truncateText(post.details, 200);
+const PostDetails = () => {
+  const location = useLocation();
+  const post = location.state;
 
   return (
     <div className="grid grid-row-5 rounded bg-base-100 p-2 mt-2 mb-2">
@@ -27,9 +19,7 @@ const PostCard = ({ post }) => {
 
       <div className="mt-2 mb-2 flex flex-col">
         {/* Display truncated post details */}
-        <Link to={`/posts/details/${post.id}`} state={post}>
-          {truncatedDetails}{" "}
-        </Link>
+        {post.details}
       </div>
       <ImageContainer id={post.id} />
       <TagContainer tags={post.tags} />
@@ -38,5 +28,4 @@ const PostCard = ({ post }) => {
     </div>
   );
 };
-
-export default PostCard;
+export default PostDetails;

@@ -26,7 +26,6 @@ const ImageContainer = ({ id }) => {
     const fetchImages = async () => {
       try {
         const res = await api.get(`api/post/post_images/${id}`);
-        console.log(res.data);
         setImageList(res.data.images); // Update the image list with the API response
         setError(""); // Clear any previous errors
       } catch (error) {
