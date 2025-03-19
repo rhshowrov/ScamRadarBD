@@ -62,7 +62,7 @@ const ImageContainer = ({ id }) => {
   return (
     <div>
       {/* Image Grid */}
-      <div className="grid grid-cols-2 rounded sm:grid-cols-3 md:grid-cols-4 gap-1 w-full">
+      <div className="grid grid-cols-2 bg-transparent p-2 sm:grid-cols-3 md:grid-cols-4 gap-1 w-full">
         {imageList.map((image, index) => (
           <div
             key={index}
@@ -72,7 +72,7 @@ const ImageContainer = ({ id }) => {
             <img
               src={image} // Use the image URL from the API response
               alt={`Image ${index + 1}`}
-              className="w-auto h-full object-contain"
+              className="w-auto rounded h-full object-contain"
             />
           </div>
         ))}

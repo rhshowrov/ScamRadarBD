@@ -50,8 +50,9 @@ def UserLogin(request):
     if not username or not password:
         return Response({"error": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
     user=authenticate(username=username,password=password)
+    print(user)
     if user is not None:
         refresh=RefreshToken.for_user(user)
-        return Response({'refresh':str(refresh),"access":str(refresh.access_token)},status=status.HTTP_200_OK)
+        return Response({'refresh':str(refresh),"access":str(refresh.access_token),'user':str(user)},status=status.HTTP_200_OK)
     return Response({"error":'Invalid Credentials!!'},status=status.HTTP_401_UNAUTHORIZED)
 

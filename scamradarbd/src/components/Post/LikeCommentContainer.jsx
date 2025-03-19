@@ -53,14 +53,14 @@ const LikeCommentContainer = ({ id }) => {
   }
 
   return (
-    <div className="grid grid-row-2 mt-1">
+    <div className="grid bg-transparent p-2 grid-row-2 mt-1">
       <div className="row-span-1 flex flex-row justify-between">
         {/* Like Section */}
         <div className="flex flex-row items-center">
           <button
             onClick={handleLikeUnlike}
             aria-label={liked ? "Unlike post" : "Like post"}
-            className="flex items-center focus:outline-none"
+            className="flex items-center  focus:outline-none"
           >
             {liked ? (
               <SolidHeartIcon className="size-6 text-red-500" /> // Solid icon for liked state
@@ -81,7 +81,6 @@ const LikeCommentContainer = ({ id }) => {
           </div>
         </div>
       </div>
-      <hr />
     </div>
   );
 };

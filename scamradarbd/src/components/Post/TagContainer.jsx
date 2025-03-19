@@ -14,7 +14,7 @@ const TagContainer = ({ tags }) => {
   ];
 
   return (
-    <div className="flex flex-row flex-wrap gap-2 mt-2 mb-2">
+    <div className="flex bg-transparent flex-row flex-wrap gap-2 p-2">
       {tags.map((tag, index) => {
         // Randomly select a color for each tag
         const randomColor = colors[Math.floor(Math.random() * colors.length)];

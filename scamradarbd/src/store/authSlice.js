@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../api/constant";
+import { jwtDecode } from "jwt-decode";
 export const loginUser=createAsyncThunk('api/login',
     async({username,password},{rejectWithValue})=>{
         try{
@@ -38,10 +39,21 @@ export const registerUser=createAsyncThunk('api/signup',
     }
 )
 
-
+function isValid(token){
+    if (!token) return false;
+    try{
+        const decoded=jwtDecode(token)
+        const now = Date.now() / 1000;
+        return decoded.exp > now;
+    }catch (error) {
+        console.error("Token decode error:", error);
+        return false;
+      }
+}
 const initialState={
-    isAuthenticated:false,
+    isAuthenticated:isValid(localStorage.getItem(ACCESS_TOKEN)),
     token:null,
+    user:null,
     loading:false,
     error:null,
     success:null,
@@ -67,6 +79,7 @@ const authSlice=createSlice({
                 localStorage.setItem(REFRESH_TOKEN,action.payload.refresh)
                 state.isAuthenticated=true
                 state.loading=false
+                state.user=action.payload.user
                 state.token=action.payload.access
 
             })
