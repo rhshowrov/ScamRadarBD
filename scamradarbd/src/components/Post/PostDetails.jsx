@@ -29,7 +29,7 @@ const PostDetails = () => {
       <TagContainer tags={post.tags} />
 
       <LikeCommentContainer id={post.id} />
-      <PostCommentContainer />
+      <PostCommentContainer post_id={post.id} />
     </div>
   );
 };

@@ -10,7 +10,7 @@ const ImageContainer = ({ id }) => {
   // Disable scrolling when the modal is open
   useEffect(() => {
     if (selectedImage) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add("overflow-auto");
     } else {
       document.body.classList.remove("overflow-hidden");
     }

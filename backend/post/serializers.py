@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, Tag, Place, PostImage
+from .models import Post, Tag, Place, PostImage,PostComment
 from user.models import CustomUser
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,3 +72,9 @@ class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Post
         exclude = ['updated_at','status']
+
+class CommentSerializer(serializers.ModelSerializer):
+    user=serializers.CharField(source='user.username', read_only=True)
+    class Meta:
+        model=PostComment
+        exclude =['post']

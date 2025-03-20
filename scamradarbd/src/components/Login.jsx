@@ -14,7 +14,7 @@ const Login = () => {
     return () => {
       dispatch(authSliceActions.resetState());
     };
-  }, []);
+  }, [dispatch]);
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }

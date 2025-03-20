@@ -6,8 +6,9 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PostCreateSerializer
 from rest_framework import viewsets
 from .models import Place,Post,PostVote,PostImage,PostComment
-from .serializers import PlaceSerializer,PostListSerializer
+from .serializers import PlaceSerializer,PostListSerializer,CommentSerializer
 from django.db.models import Count, Q
+from rest_framework import generics
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -142,3 +143,18 @@ def postImageList(request,id):
         # Log the error for debugging (optional)
         print(f"Error in getVoteCount: {str(e)}")
         return Response({'error': 'An error occurred'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class CommentListCreateByPost(generics.ListCreateAPIView):
+    serializer_class=CommentSerializer
+    authentication_classes=[JWTAuthentication]
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        post_id=self.kwargs['post_id']
+        comments=PostComment.objects.filter(post_id=post_id)
+        return comments
+    def perform_create(self, serializer):
+        post_id = self.kwargs['post_id']
+        serializer.save(user=self.request.user,post_id=post_id)
