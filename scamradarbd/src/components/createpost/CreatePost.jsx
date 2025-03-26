@@ -6,7 +6,7 @@ import AddImage from "./AddImage";
 import { createPost } from "../../store/postSlice";
 
 const CreatePost = () => {
-  const { success, error, loading } = useSelector((store) => store.post);
+  const { success, error, loading } = useSelector((store) => store.posts);
   const dispatch = useDispatch();
   const [details, setDetails] = useState("");
   const [tags, setTags] = useState([]);
@@ -61,7 +61,7 @@ const CreatePost = () => {
   }, [success, error, loading]);
 
   return (
-    <div className="flex flex-col card shadow-sm bg-base-100 mt-2 p-3">
+    <div className="flex flex-col card shadow-sm bg-transparent mt-2 p-3">
       <h1 className="card-title text-2xl text-center font-normal mb-1">
         Create Your Post
       </h1>

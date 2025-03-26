@@ -6,7 +6,7 @@ const HomeBar = () => {
       <Link className="border-l border-r p-2 rounded  hover:border-b-2 ">
         Trending
       </Link>
-      <Link className=" border-l border-r p-2 rounded hover:border-b-2">
+      <Link className=" border-l border-r  p-2 rounded hover:border-b-2">
         Most Liked
       </Link>
       <Link className=" border-l border-r p-2 rounded hover:border-b-2">
