@@ -9,6 +9,7 @@ from .models import Place,Post,PostVote,PostImage,PostComment
 from .serializers import PlaceSerializer,PostListSerializer,CommentSerializer
 from django.db.models import Count, Q
 from rest_framework import generics
+from rest_framework import filters
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -158,3 +159,9 @@ class CommentListCreateByPost(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']
         serializer.save(user=self.request.user,post_id=post_id)
+
+
+# class SearchListView(generics.ListAPIView):
+#     serializer_class=PostListSerializer
+#     filter_backends = [filters.SearchFilter]
+#     search_fields = '__all__'
