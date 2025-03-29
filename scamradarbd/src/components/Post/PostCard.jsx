@@ -3,6 +3,7 @@ import ImageContainer from "./ImageContainer";
 import TagContainer from "./TagContainer";
 import LikeCommentContainer from "./LikeCommentContainer";
 import PostHeader from "./PostHeader";
+import LinkContainer from "./LinkContainer";
 
 const PostCard = ({ post }) => {
   // Truncate the post details to 200 characters
@@ -38,8 +39,8 @@ const PostCard = ({ post }) => {
       </div>
 
       <ImageContainer id={post.id} />
-      <TagContainer tags={post.tags} />
-
+      {post.tags.length !=0 && <TagContainer tags={post.tags} /> }
+      {post.link && <LinkContainer link={post.link} />}
       <LikeCommentContainer id={post.id} />
     </div>
   );

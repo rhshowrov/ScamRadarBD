@@ -161,7 +161,38 @@ class CommentListCreateByPost(generics.ListCreateAPIView):
         serializer.save(user=self.request.user,post_id=post_id)
 
 
-# class SearchListView(generics.ListAPIView):
-#     serializer_class=PostListSerializer
-#     filter_backends = [filters.SearchFilter]
-#     search_fields = '__all__'
+class SearchListView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+    filter_backends = [filters.SearchFilter]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_search_fields(self):
+        search_fields = self.request.query_params.get('search_fields', '').split(',')
+        valid_fields = [f for f in search_fields if f in [
+            'user__username',
+            'details',
+            'tags__name',
+            'link',
+            'place__name',
+            'location'
+        ]]
+        return valid_fields or ['details']
+
+    def filter_queryset(self, queryset):
+        search_term = self.request.query_params.get('search', None)
+        if not search_term:
+            return queryset.none()  # Return empty if no search term provided
+
+        search_fields = self.get_search_fields()
+        q_objects = Q()
+
+        for field in search_fields:
+            # For exact matching on specific fields
+            if field in ['user__username', 'tags__name']:
+                q_objects |= Q(**{f"{field}__iexact": search_term})
+            else:
+                q_objects |= Q(**{f"{field}__icontains": search_term})
+
+        return queryset.filter(q_objects).distinct()

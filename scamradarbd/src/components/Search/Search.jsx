@@ -1,10 +1,11 @@
 import { useState } from "react";
 import api from "../../api/api";
+import PostCard from "../Post/PostCard";
 
 const Search = () => {
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState([]);
   const fields = ["User", "Tag", "Location", "Place", "Link", "Text"];
   const btnColor = [
     "btn-secondary",
@@ -33,17 +34,21 @@ const Search = () => {
     Text: "details",
   };
   const apiCall = async (searchInput, selectedFilters) => {
+    //important
+    //converting the array to a string
+    //uses of filter and join
     const search_fields = selectedFilters
       .map((filter) => fieldMapping[filter])
       .join(",");
     console.log(search_fields);
-
-    const response = await api.get("api/post/serach/", {
+    //this is how to define search and filters
+    const response = await api.get("api/post/search_post/", {
       params: {
         search: searchInput,
         search_fields: search_fields,
       },
     });
+    console.log(response.data);
     return response.data;
   };
   const handleSearch = async () => {
@@ -107,13 +112,22 @@ const Search = () => {
           </p>
         </div>
       )}
+      <hr className="mt-2" />
       {search && (
         <div className="">
           <p className="text-center mb-2 text-bold mt-2 text-info">
             Showing Results for "{searchInput}"
           </p>
-          <hr />
-          {/* Results would be displayed here */}
+          {results?.length === 0 && (
+            <div className="alert alert-error my-4">
+              <span className=" font-medium">
+                No posts found for this keyword!
+              </span>
+            </div>
+          )}
+          {results.map((post) => {
+            return <PostCard className="w-auto" key={post.id} post={post} />;
+          })}
           {results && (
             <div className="mt-4">{/* Render your results here */}</div>
           )}
