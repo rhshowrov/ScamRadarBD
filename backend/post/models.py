@@ -32,7 +32,7 @@ class Post(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='published')
 
     def __str__(self):
-        return f'{self.user.username} added a post at {self.place}'
+        return f'{self.user.username} added a post ID: {self.pk}'
 
 class PostImage(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
@@ -42,8 +42,8 @@ class PostImage(models.Model):
         return f'Image for post {self.post.id}'
 
 class PostComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments')  # ✅ Unique R name
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments')  # ✅ Unique R name
     comment = models.TextField(max_length=500, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

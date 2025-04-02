@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom"; // Add these imports
 import api from "../../api/api";
 import PostCard from "../Post/PostCard";
 
 const Search = () => {
+  const [searchParams, setSearchParams] = useSearchParams(); // Get current search params
   const [search, setSearch] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
+  // Initialize searchInput from URL if it exists
+  const [searchInput, setSearchInput] = useState(searchParams.get("q") || "");
   const [results, setResults] = useState([]);
   const fields = ["User", "Tag", "Location", "Place", "Link", "Text"];
   const btnColor = [
@@ -14,17 +17,22 @@ const Search = () => {
     "btn-warning",
     "btn-success",
   ];
-  const [selectedFilters, setSelectedFilter] = useState([]);
+  // Initialize filters from URL if they exist
+  const [selectedFilters, setSelectedFilter] = useState(
+    searchParams.get("filters")?.split(",") || []
+  );
+  const navigate = useNavigate();
 
-  // Fixed filter toggling
   const toggleFilter = (field) => {
-    if (selectedFilters.includes(field)) {
-      // Properly create a new array without mutating state
-      setSelectedFilter(selectedFilters.filter((f) => f !== field));
-    } else {
-      setSelectedFilter([...selectedFilters, field]);
-    }
+    const newFilters = selectedFilters.includes(field)
+      ? selectedFilters.filter((f) => f !== field)
+      : [...selectedFilters, field];
+    setSelectedFilter(newFilters);
+    
+    // Update URL when filters change
+    updateUrl(searchInput, newFilters);
   };
+
   const fieldMapping = {
     User: "user__username",
     Tag: "tags__name",
@@ -33,31 +41,45 @@ const Search = () => {
     Link: "link",
     Text: "details",
   };
+
   const apiCall = async (searchInput, selectedFilters) => {
-    //important
-    //converting the array to a string
-    //uses of filter and join
     const search_fields = selectedFilters
       .map((filter) => fieldMapping[filter])
       .join(",");
-    console.log(search_fields);
-    //this is how to define search and filters
     const response = await api.get("api/post/search_post/", {
       params: {
         search: searchInput,
         search_fields: search_fields,
       },
     });
-    console.log(response.data);
     return response.data;
   };
+
+  // Function to update URL
+  const updateUrl = (query, filters) => {
+    const params = new URLSearchParams();
+    if (query) params.set("q", query);
+    if (filters.length > 0) params.set("filters", filters.join(","));
+    
+    // Update URL without page reload
+    navigate({ search: params.toString() }, { replace: true });
+  };
+
   const handleSearch = async () => {
     setSearch(true);
+    updateUrl(searchInput, selectedFilters); // Update URL when searching
     try {
       const response = await apiCall(searchInput, selectedFilters);
       setResults(response);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // Handle pressing Enter key in search input
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && searchInput) {
+      handleSearch();
     }
   };
 
@@ -71,6 +93,7 @@ const Search = () => {
             required
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            onKeyPress={handleKeyPress} // Add key press handler
             placeholder="Search"
           />
         </div>

@@ -196,3 +196,55 @@ class SearchListView(generics.ListAPIView):
                 q_objects |= Q(**{f"{field}__icontains": search_term})
 
         return queryset.filter(q_objects).distinct()
+
+from django.db.models import Count, Q
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.exceptions import APIException
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import Post
+from .serializers import PostListSerializer
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])  # Use JWT authentication
+@permission_classes([IsAuthenticated])    
+def PostListByQuery(request):
+    search_keyword = request.query_params.get('search')
+
+    try:
+        if search_keyword == 'trending':
+            posts = Post.objects.annotate(
+                like_count=Count('votes', filter=Q(votes__vote_type='like'), distinct=True),
+                comment_count=Count('comments', distinct=True)
+            ).order_by('-comment_count', '-like_count')
+
+        elif search_keyword == 'newest':
+            posts = Post.objects.all().order_by('-created_at', '-updated_at')
+
+        elif search_keyword == 'most_liked':
+            posts = Post.objects.annotate(
+                most_liked=Count('votes', filter=Q(votes__vote_type='like'), distinct=True)
+            ).order_by('-most_liked')
+
+        elif search_keyword == 'most_commented':
+            posts = Post.objects.annotate(
+                most_commented=Count('comments', distinct=True)
+            ).order_by('-most_commented')
+
+        else:
+            return Response(
+                {'error': 'Invalid search keyword. Choose from trending, newest, most_liked, most_commented.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Serialize and return the response
+        serializer = PostListSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    except APIException as e:  # Handles DRF-specific errors
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    except Exception as e:  # Catch all unexpected errors
+        return Response({'error': 'Something went wrong. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
