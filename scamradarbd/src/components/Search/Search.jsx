@@ -28,7 +28,7 @@ const Search = () => {
       ? selectedFilters.filter((f) => f !== field)
       : [...selectedFilters, field];
     setSelectedFilter(newFilters);
-    
+
     // Update URL when filters change
     updateUrl(searchInput, newFilters);
   };
@@ -60,7 +60,7 @@ const Search = () => {
     const params = new URLSearchParams();
     if (query) params.set("q", query);
     if (filters.length > 0) params.set("filters", filters.join(","));
-    
+
     // Update URL without page reload
     navigate({ search: params.toString() }, { replace: true });
   };

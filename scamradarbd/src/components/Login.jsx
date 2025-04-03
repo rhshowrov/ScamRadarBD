@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { authSliceActions, loginUser } from "../store/authSlice";
+import { loginUser } from "../store/authSlice";
 
 const Login = () => {
   const { isAuthenticated, loading, error } = useSelector(
@@ -10,11 +10,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(() => {
-    return () => {
-      dispatch(authSliceActions.resetState());
-    };
-  }, [dispatch]);
+
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }

@@ -10,6 +10,7 @@ from .serializers import PlaceSerializer,PostListSerializer,CommentSerializer
 from django.db.models import Count, Q
 from rest_framework import generics
 from rest_framework import filters
+from rest_framework.exceptions import APIException
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -197,29 +198,20 @@ class SearchListView(generics.ListAPIView):
 
         return queryset.filter(q_objects).distinct()
 
-from django.db.models import Count, Q
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.exceptions import APIException
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from .models import Post
-from .serializers import PostListSerializer
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])    
 def PostListByQuery(request):
-    search_keyword = request.query_params.get('search')
-
+    search_keyword = request.query_params.get('type')
+    print(search_keyword)
     try:
         if search_keyword == 'trending':
             posts = Post.objects.annotate(
                 like_count=Count('votes', filter=Q(votes__vote_type='like'), distinct=True),
-                comment_count=Count('comments', distinct=True)
+                comment_count=Count('post_comments', distinct=True)
             ).order_by('-comment_count', '-like_count')
-
+            print(f'Trending:{posts}')
         elif search_keyword == 'newest':
             posts = Post.objects.all().order_by('-created_at', '-updated_at')
 
@@ -227,10 +219,10 @@ def PostListByQuery(request):
             posts = Post.objects.annotate(
                 most_liked=Count('votes', filter=Q(votes__vote_type='like'), distinct=True)
             ).order_by('-most_liked')
-
+            print(f'Liked:{posts}')
         elif search_keyword == 'most_commented':
             posts = Post.objects.annotate(
-                most_commented=Count('comments', distinct=True)
+                most_commented=Count('post_comments', distinct=True)
             ).order_by('-most_commented')
 
         else:
@@ -244,6 +236,7 @@ def PostListByQuery(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     except APIException as e:  # Handles DRF-specific errors
+        print(str(e))
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     except Exception as e:  # Catch all unexpected errors

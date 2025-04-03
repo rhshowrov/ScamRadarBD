@@ -1,5 +1,7 @@
 import axios from "axios";
 import { ACCESS_TOKEN } from "./constant";
+import store from "../store/store";
+import { authSliceActions } from "../store/authSlice";
 
 
 const api=axios.create({
@@ -20,7 +22,18 @@ api.interceptors.request.use(
         return Promise.reject(error)
 
     }
-)
+);
+// ✅ Response Interceptor: Handle Token Expiration
+api.interceptors.response.use(
+    (response) => response, // If the response is successful, return it.
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        console.warn("Token expired. Logging out...");
+        store.dispatch(authSliceActions.logOut()); // Dispatch logout action
+      }
+      return Promise.reject(error);
+    }
+  );
 
 
 export default api

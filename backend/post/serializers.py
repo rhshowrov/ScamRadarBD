@@ -72,7 +72,7 @@ class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Post
         exclude = ['updated_at','status']
-    #representaion lavel method
+    # # representaion lavel method
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
     #     # Remove the annotated fields manually if they exist
