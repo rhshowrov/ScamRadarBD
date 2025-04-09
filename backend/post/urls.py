@@ -1,6 +1,6 @@
 from .views import create_post
 from django.urls import path
-from .views import PlaceViewSet,PostListView,getVoteCount,postImageList,likeDislike,CommentListCreateByPost,SearchListView,PostListByQuery
+from .views import PlaceViewSet,dataAnalysis,PostListView,getVoteCount,postImageList,likeDislike,CommentListCreateByPost,SearchListView,PostListByQuery
 
 urlpatterns = [
     path('create_post/',create_post,name='create_post'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('comments/<int:post_id>',CommentListCreateByPost.as_view(),name='commentsListCreate'),
     path('search_post/',SearchListView.as_view(),name='search_post'),
     path('get_sorted_posts/',PostListByQuery,name='filtered_posts'),
+    path('get_analyzed_data/',dataAnalysis,name='analyzed_data'),
 
 ]

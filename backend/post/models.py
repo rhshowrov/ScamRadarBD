@@ -23,7 +23,7 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     details = models.TextField(max_length=1000,blank=False)
-    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    tags = models.ManyToManyField(Tag, related_name='posts_tags', blank=True)
     location = models.CharField(max_length=100)
     link = models.CharField(max_length=50,blank=True, null=True)
     place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')

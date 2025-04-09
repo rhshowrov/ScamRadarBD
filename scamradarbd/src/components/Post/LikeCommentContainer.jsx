@@ -53,7 +53,7 @@ const LikeCommentContainer = ({ id }) => {
   }
 
   return (
-    <div className="grid bg-transparent p-2 grid-row-2 mt-1">
+    <div className="grid bg-transparent p-2 grid-row-2 mt-1 mb-1">
       <div className="row-span-1 flex flex-row justify-between">
         {/* Like Section */}
         <div className="flex flex-row items-center">

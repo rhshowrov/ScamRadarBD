@@ -50,7 +50,9 @@ const ImageContainer = ({ id }) => {
   const closeModal = () => {
     setSelectedImage(null); // Clear the selected image
   };
-
+  if (imageList.length == 0) {
+    return <></>;
+  }
   if (loading) {
     return <p>Loading images...</p>; // Show loading message
   }

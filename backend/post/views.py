@@ -5,12 +5,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PostCreateSerializer
 from rest_framework import viewsets
-from .models import Place,Post,PostVote,PostImage,PostComment
+from .models import Place,Post,PostVote,PostImage,PostComment,Tag
 from .serializers import PlaceSerializer,PostListSerializer,CommentSerializer
 from django.db.models import Count, Q
 from rest_framework import generics
 from rest_framework import filters
 from rest_framework.exceptions import APIException
+from django.db.models.functions import Lower
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -241,3 +242,29 @@ def PostListByQuery(request):
     
     except Exception as e:  # Catch all unexpected errors
         return Response({'error': 'Something went wrong. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])  # Use JWT authentication
+@permission_classes([IsAuthenticated])
+def dataAnalysis(request):
+    tags = Tag.objects.annotate(post_count=Count('posts_tags')) \
+                     .order_by('-post_count')[:10] \
+                     .values_list('name', flat=True)
+    print(f'Tags are:{tags}')
+    site_links = Post.objects.values('link') \
+                       .annotate(link_count=Count('id')) \
+                       .order_by('-link_count')[:10] \
+                       .values_list('link', flat=True)
+    print(f'Site Links are:{site_links}')
+    locations=Post.objects.annotate(normalized_locations=Lower('location')) \
+              .values('normalized_locations') \
+              .annotate(post_count=Count('id')) \
+              .order_by('post_count')[:10]\
+              .values_list('normalized_locations',flat=True)
+    print(locations)
+     # ✅ Send response as JSON
+    return Response({
+        'tags': list(tags),
+        'site_links': list(site_links),
+        'locations': list(locations),
+    })
