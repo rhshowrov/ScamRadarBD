@@ -5,6 +5,7 @@ import LikeCommentContainer from "./LikeCommentContainer";
 import PostHeader from "./PostHeader";
 import PostCommentContainer from "./PostCommentContainer";
 import LinkContainer from "./LinkContainer";
+import LocationContaier from "./LocationContainer";
 const PostDetails = () => {
   const location = useLocation();
   const post = location.state;
@@ -27,7 +28,8 @@ const PostDetails = () => {
       </div>
 
       <ImageContainer id={post.id} />
-      <TagContainer tags={post.tags} />
+      {post.location && <LocationContaier location={post.location} />}
+      {post.tags.length != 0 && <TagContainer tags={post.tags} />}
       {post.link && <LinkContainer link={post.link} />}
       <LikeCommentContainer id={post.id} />
       <PostCommentContainer post_id={post.id} />

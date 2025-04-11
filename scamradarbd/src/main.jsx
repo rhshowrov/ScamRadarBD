@@ -17,6 +17,9 @@ import Logout from "./components/Logout.jsx";
 import CreatePost from "./components/createpost/CreatePost.jsx";
 import PostDetails from "./components/Post/PostDetails.jsx";
 import SortedPost from "./components/sortedPost/SortedPost.jsx";
+import { injectStore } from "./api/api";
+
+injectStore(store); // This prevents circular import
 const router = createBrowserRouter([
   {
     path: "/",

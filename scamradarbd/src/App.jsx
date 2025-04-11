@@ -3,6 +3,7 @@ import HomeBar from "./components/body/HomeBar";
 import Header from "./components/header/Header";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import DataAnalysis from "./components/Data Analysis/DataAnalysis";
 
 function App() {
   const { isAuthenticated } = useSelector((store) => store.auth);
@@ -19,7 +20,9 @@ function App() {
         <hr />
         <Outlet />
       </div>
-      <div className="hidden md:block p-3  rounded md:col-span-5">grid3</div>
+      <div className="hidden md:block p-3  rounded md:col-span-5 max-h-dvh sticky top-0 right-0 ">
+        <DataAnalysis />
+      </div>
     </div>
   );
 }
