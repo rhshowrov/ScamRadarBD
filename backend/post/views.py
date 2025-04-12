@@ -4,14 +4,16 @@ from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PostCreateSerializer
+from rest_framework.views import APIView
 from rest_framework import viewsets
-from .models import Place,Post,PostVote,PostImage,PostComment,Tag
+from .models import Place,Post,PostVote,PostImage,PostComment,Tag,Bookmark
 from .serializers import PlaceSerializer,PostListSerializer,CommentSerializer
 from django.db.models import Count, Q
 from rest_framework import generics
 from rest_framework import filters
 from rest_framework.exceptions import APIException
 from django.db.models.functions import Lower
+from rest_framework.throttling import UserRateThrottle
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -268,3 +270,28 @@ def dataAnalysis(request):
         'site_links': list(site_links),
         'locations': list(locations),
     })
+
+
+from .throttle import BookmarkThrottle
+
+class ToggleBookmark(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
+    throttle_classes = [BookmarkThrottle]  # 🔒 Custom Throttling added
+    def post(self,request,*args,**kwargs):
+        user=request.user
+        try:
+            post=Post.objects.get(pk=self.kwargs.get('pk'))
+        except Post.DoesNotExist:
+             return Response({'error':"Post Does Not exist!"},status=status.HTTP_404_NOT_FOUND)
+        bookmark_exist=Bookmark.objects.filter(user=user,post=post).first()
+        if bookmark_exist:
+                #save() only used after creating instance of a model Using the MODELNAME 
+                bookmark_exist.delete()
+                return Response({'message':"bookmark Removed!","bookmark":False},status=status.HTTP_200_OK)
+        else:
+                Bookmark.objects.create(user=user,post=post)
+                return Response({'message':"bookmark Added!","bookmark":True},status=status.HTTP_201_CREATED)
+
+
+        
