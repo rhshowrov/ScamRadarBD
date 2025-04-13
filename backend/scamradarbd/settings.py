@@ -72,7 +72,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '5/minute',    # Limit for unauthenticated users (based on IP)
-        'user': '10/minute',  # ⏱️ Customize as needed
+        'user': '1000/minute',  # ⏱️ Customize as needed
     }
 }
 from datetime import timedelta
