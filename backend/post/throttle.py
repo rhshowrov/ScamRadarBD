@@ -1,7 +1,7 @@
 from rest_framework.throttling import UserRateThrottle
 
 class BookmarkThrottle(UserRateThrottle):
-    rate = '5/min'  # Set your custom rate
+    rate = '100/min'  # Set your custom rate
 
 class PremiumUserThrottle(UserRateThrottle):
     def get_rate(self):

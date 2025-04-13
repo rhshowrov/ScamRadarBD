@@ -4,6 +4,7 @@ import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/api";
+import Bookmark from "./Bookmark";
 
 const LikeCommentContainer = ({ id }) => {
   const [liked, setLiked] = useState(false);
@@ -70,7 +71,9 @@ const LikeCommentContainer = ({ id }) => {
             <div className="p-1">{likeCount} people loved this</div>
           </button>
         </div>
-
+        <div>
+          <Bookmark id={id} />
+        </div>
         {/* Comment Section */}
         <div className="flex flex-row items-center">
           <ChatBubbleLeftIcon className="size-6" />
