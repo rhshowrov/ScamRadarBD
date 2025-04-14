@@ -5,7 +5,6 @@ import { postList } from "../../store/postSlice";
 
 const Post = () => {
   const { posts, loading, error } = useSelector((store) => store.posts);
-  console.log(posts);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(postList());

@@ -21,9 +21,20 @@ const Bookmark = ({ id }) => {
   };
 
   useEffect(() => {
-    // initial fetch
-    toogleBookmarkStatus();
-  }, []);
+    const getStatus = async () => {
+      try {
+        const res = await api.get(`api/post/bookmark/${id}`);
+        setMarkStatus(res.data.bookmark);
+      } catch (error) {
+        if (!error.response) {
+          console.log("Check Internet Status");
+        } else {
+          setMarkStatus(false);
+        }
+      }
+    };
+    getStatus();
+  }, [id]);
 
   return (
     <div>
@@ -34,7 +45,7 @@ const Bookmark = ({ id }) => {
         />
       ) : (
         <OutLineBookmarkIcon
-          className="w-6 h-6 cursor-pointer text-gray-500"
+          className="w-6 h-6 cursor-pointer text-white"
           onClick={toogleBookmarkStatus}
         />
       )}

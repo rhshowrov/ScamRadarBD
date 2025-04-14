@@ -2,16 +2,18 @@ import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import api from "../../api/api";
 import Bookmark from "./Bookmark";
-
-const LikeCommentContainer = ({ id }) => {
+const LikeCommentContainer = ({ id, post }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [commentsCount, setCommentsCount] = useState(0);
+  const location = useLocation();
+  const current_path = location.pathname;
+  const target_path = `/posts/details/${id}`;
 
   // Fetch like and comment status
   useEffect(() => {
@@ -68,20 +70,34 @@ const LikeCommentContainer = ({ id }) => {
             ) : (
               <OutlineHeartIcon className="size-6" /> // Outline icon for unliked state
             )}
-            <div className="p-1">{likeCount} people loved this</div>
+            <div className="p-1">
+              {likeCount} {likeCount === 1 ? "person loves" : "people love"}{" "}
+              this
+            </div>
           </button>
         </div>
         <div>
           <Bookmark id={id} />
         </div>
         {/* Comment Section */}
+
         <div className="flex flex-row items-center">
-          <ChatBubbleLeftIcon className="size-6" />
-          <div className="p-1">
-            <Link to={`/post/${id}`} className="hover:border-b-1">
-              {commentsCount}
+          {current_path == target_path ? (
+            <div className="flex flex-row">
+              <ChatBubbleLeftIcon className="size-6" />
+              <div className="px-1">{commentsCount}</div>{" "}
+            </div>
+          ) : (
+            <Link
+              to={target_path}
+              state={post}
+              className="hover:border-b-1 hover:text-blue-600 flex flex-row"
+            >
+              <ChatBubbleLeftIcon className="size-6" />
+
+              <div className="px-1">{commentsCount}</div>
             </Link>
-          </div>
+          )}
         </div>
       </div>
     </div>

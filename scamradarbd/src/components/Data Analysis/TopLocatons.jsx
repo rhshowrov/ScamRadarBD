@@ -1,15 +1,15 @@
 const TopLocations = ({ locations }) => {
   const colors = [
     "bg-purple-500", // Electric Violet (Vibrant Purple)
-    "bg-[#00F5FF]", // Neon Cyan (Custom Bright Teal)
+    "bg-[#95700a]", // Neon Cyan (Custom Bright Teal)
     "bg-red-400", // Coral Pink (Soft Warm Pink)
-    "bg-lime-300", // Acid Green (Highlighter Green)
+    "bg-lime-100", // Acid Green (Highlighter Green)
     "bg-blue-800", // Deep Sapphire (Rich Dark Blue)
     "bg-orange-500", // Sunset Orange (Warm Orange)
-    "bg-yellow-400", // Cyber Yellow (Glowing Yellow)
+    "bg-yellow-600", // Cyber Yellow (Glowing Yellow)
     "bg-fuchsia-500", // Magenta Pop (Vibrant Pink-Purple)
     "bg-emerald-700", // Dark Emerald (Deep Green)
-    "bg-cyan-600", // Steel Teal (Cool Blue-Green)
+    "bg-[#273838]", // Steel Teal (Cool Blue-Green)
   ];
   if (locations.length == 0) {
     return <div>Not data Found</div>;

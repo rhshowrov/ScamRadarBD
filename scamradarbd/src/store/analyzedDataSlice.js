@@ -4,7 +4,6 @@ export const getAnalyzedData=createAsyncThunk('api/getAnalyzedData',
     async(_,{rejectWithValue})=>{
         try{
             const res=await api.get('api/post/get_analyzed_data/')
-            console.log(res.data)
             return res.data
 
         }catch(error){

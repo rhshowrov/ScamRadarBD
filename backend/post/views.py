@@ -293,5 +293,12 @@ class ToggleBookmark(APIView):
                 Bookmark.objects.create(user=user,post=post)
                 return Response({'message':"bookmark Added!","bookmark":True},status=status.HTTP_201_CREATED)
 
-
+    def get(self,request,*args,**kwargs):
+        user=request.user
+        try:
+            post=Post.objects.get(pk=kwargs.get('pk'))
+        except Post.DoesNotExist:
+             return Response({'error':"Post Does Not exist!"},status=status.HTTP_404_NOT_FOUND)
+        bookmark_exist=Bookmark.objects.filter(user=user,post=post).exists()
+        return Response({'message':"bookmark Status Retrived","bookmark":bookmark_exist},status=status.HTTP_200_OK)
         
