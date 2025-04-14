@@ -43,7 +43,7 @@ const PostCard = ({ post }) => {
       {post.location && <LocationContaier location={post.location} />}
       {post.tags.length != 0 && <TagContainer tags={post.tags} />}
       {post.link && <LinkContainer link={post.link} />}
-      <LikeCommentContainer id={post.id} />
+      <LikeCommentContainer id={post.id} post={post} />
     </div>
   );
 };

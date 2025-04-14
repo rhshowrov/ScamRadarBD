@@ -8,7 +8,6 @@ export const getComments = createAsyncThunk(
   async (post_id, { rejectWithValue }) => {
     try {
       const res = await api.get(`api/post/comments/${post_id}`);
-      console.log(res.data);
       return res.data;
     } catch (error) {
       console.log(error.response.data);

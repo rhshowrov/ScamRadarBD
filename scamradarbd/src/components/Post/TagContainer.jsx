@@ -15,21 +15,17 @@ const TagContainer = ({ tags }) => {
 
   return (
     <div className="flex bg-transparent flex-row flex-wrap gap-2 p-2">
-      <div className="font-bold">
-            Tags:&nbsp;
-           </div>
-      {tags.map((tag, index) => {
+      <div className="font-bold">Tags:&nbsp;</div>
+      {tags.map((tag) => {
         // Randomly select a color for each tag
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         return (
-          <div className="flex flex-row">
-           
-          <div
-            key={index}
-            className={`px-3 py-1 rounded-lg text-sm font-medium ${randomColor}`}
-          >
-            #{tag}
-          </div>
+          <div key={tag} className="flex flex-row">
+            <div
+              className={`px-3 py-1 rounded-lg text-sm font-medium ${randomColor}`}
+            >
+              #{tag}
+            </div>
           </div>
         );
       })}
