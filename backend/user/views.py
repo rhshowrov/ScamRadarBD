@@ -5,11 +5,14 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-# Create your views here.
+from rest_framework import mixins
+from rest_framework import generics
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserProfileSerializer
 from .models import CustomUser
 from django.contrib.auth import authenticate
 @api_view(['POST'])
@@ -56,3 +59,18 @@ def UserLogin(request):
         return Response({'refresh':str(refresh),"access":str(refresh.access_token),'user':str(user)},status=status.HTTP_200_OK)
     return Response({"error":'Invalid Credentials!!'},status=status.HTTP_401_UNAUTHORIZED)
 
+
+class UserProfileUpdateView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,generics.GenericAPIView):
+    queryset=CustomUser.objects.all()
+    serializer_class=UserProfileSerializer
+    authentication_classes = [JWTAuthentication]  
+    permission_classes = [IsAuthenticated] 
+    parser_classes = [MultiPartParser, FormParser]  # 👈 required for file upload
+    def get_object(self):
+        return self.request.user
+    def get(self,request,*args,**kwargs):
+        return self.retrieve(request,*args,**kwargs)
+    def patch(self,request,*args,**kwargs):
+        return self.partial_update(request,*args,**kwargs)
+    

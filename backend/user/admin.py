@@ -6,7 +6,7 @@ class CustomUserAdmin(UserAdmin):
     # ✅ Display all fields properly
     fieldsets = (
         ('User Information', {'fields': ('username', 'email', 'mobile', 'password')}),
-        ('Personal Info', {'fields': ('first_name', 'last_name')}),
+        ('Personal Info', {'fields': ('first_name', 'last_name','profile_pic')}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
         ('Important Dates', {'fields': ('date_joined',)}),
     )

@@ -45,6 +45,16 @@ const Header = () => {
           <MagnifyingGlassIcon />
         </NavLink>
         <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `size-7 mt-2 mr-2 hover:border ${
+              isActive ? "scale-130" : "fill-none text-gray-400"
+            }`
+          }
+        >
+          <UserIcon />
+        </NavLink>
+        <NavLink
           to="/notifications"
           className={({ isActive }) =>
             `size-7 mt-2 mr-2 hover:border ${
@@ -63,16 +73,6 @@ const Header = () => {
           }
         >
           <BookmarkIcon />
-        </NavLink>
-        <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            `size-7 mt-2 mr-2 hover:border ${
-              isActive ? "scale-130" : "fill-none text-gray-400"
-            }`
-          }
-        >
-          <UserIcon />
         </NavLink>
         <NavLink
           to="/logout"
