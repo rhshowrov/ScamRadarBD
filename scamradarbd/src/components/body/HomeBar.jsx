@@ -6,10 +6,8 @@ const HomeBar = () => {
   const type = searchParams.get("type"); // Get 'type' from the query string
 
   const getLinkClass = (linkType) =>
-    `border-l border-r p-2 rounded hover:border-b-2 ${
-      type === linkType
-        ? "font-bold text-blue-600 border-b-2 border-blue-600"
-        : ""
+    `border-x-indigo-500 border-x font-bold border-b border-b-indigo-500 p-2 rounded  hover:border-b-3 ${
+      type === linkType ? "text-blue-600 border-b-2 border-blue-600" : ""
     }`;
 
   return (

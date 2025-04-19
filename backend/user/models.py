@@ -39,6 +39,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(unique=True)
+    profile_pic=models.ImageField(upload_to='profile_pics/',default='profile_pics/profile.png')
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     mobile = models.CharField(max_length=11, validators=[validate_mobile_number],
@@ -51,7 +52,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     objects = CustomUserManager()
     # for telling that login usingin username
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'mobile','password']
+    REQUIRED_FIELDS = ['email', 'mobile']
 
     def __str__(self):
         return self.username

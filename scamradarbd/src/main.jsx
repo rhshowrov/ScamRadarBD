@@ -18,6 +18,7 @@ import CreatePost from "./components/createpost/CreatePost.jsx";
 import PostDetails from "./components/Post/PostDetails.jsx";
 import SortedPost from "./components/sortedPost/SortedPost.jsx";
 import { injectStore } from "./api/api";
+import ProfileBase from "./components/Profile/ProfileBase.jsx";
 
 injectStore(store); // This prevents circular import
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "create-post",
         element: <CreatePost />,
+      },
+      {
+        path: "profile",
+        element: <ProfileBase />,
       },
     ],
   },
