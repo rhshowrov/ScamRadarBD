@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="flex col-span-1 fixed top-0 left-0 h-screen md:col-span-2 sticky border-r-1 rounded flex-col w-auto">
+    <div className="flex col-span-1 fixed bg-base-200 top-0 left-0 h-screen md:col-span-2 sticky border-r-1 rounded flex-col w-auto">
       <img className="rounded-full border-b-2" src="/logo.png" alt="logo" />
       <div className="flex flex-col items-end mt-5">
         <NavLink

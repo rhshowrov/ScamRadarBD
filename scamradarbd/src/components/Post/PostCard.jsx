@@ -18,7 +18,7 @@ const PostCard = ({ post }) => {
   const truncatedDetails = truncateText(post.details, 200);
 
   return (
-    <div className="grid grid-row-5 drop-shadow-sm border rounded-lg mt-2 mb-2">
+    <div className="grid grid-row-5 drop-shadow-sm bg-base-200  rounded-lg mt-2 mb-2">
       {/* Use the UserInfo component */}
 
       <PostHeader
