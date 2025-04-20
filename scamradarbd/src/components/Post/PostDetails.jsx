@@ -11,7 +11,7 @@ const PostDetails = () => {
   const post = location.state;
 
   return (
-    <div className="grid grid-row-5 drop-shadow-sm border rounded-lg mt-2 mb-2">
+    <div className="grid grid-row-5 drop-shadow-sm bg-base-200 rounded-lg mt-2 mb-2">
       {/* Use the UserInfo component */}
 
       <PostHeader

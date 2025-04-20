@@ -17,7 +17,7 @@ function App() {
       <Header />
       <div className=" col-span-3 border-r-1 p-3 md:col-span-6 rounded">
         <HomeBar />
-        <hr />
+
         <Outlet />
       </div>
       <div className="hidden md:block p-3  rounded md:col-span-5 max-h-dvh sticky top-0 right-0 ">

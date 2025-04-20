@@ -27,7 +27,7 @@ const Post = () => {
 
       {/* 📜 Post List */}
       {!loading && !error && posts.length > 0 && (
-        <div className="w-full max-w-3xl rounded flex flex-col gap-2 mt-2">
+        <div className="w-full max-w-3xl  rounded flex flex-col gap-2 mt-2">
           {posts.map((post) => (
             <PostCard className="w-auto" key={post.id} post={post} />
           ))}

@@ -23,24 +23,20 @@ const DataAnalysis = () => {
   }
   return (
     <div className="flex flex-col">
-      <div className="mt-2">
-        <h2 className="text-center p-2 mb-2 bg-primary rounded-lg font-semi-bold text-lg">
+      <div className="mt-2 ">
+        <h2 className="text-center p-2 mb-2 bg-base-200 text-info rounded-lg font-semi-bold text-lg">
           Analysis Results Of Our Data
         </h2>
-        <hr className="mt-3" />
       </div>
-      <div>
+      <div className="bg-base-200 rounded-md p-2 mb-2">
         <TopSite sites={results.site_links} />
       </div>
-      <hr className="mt-3" />
-      <div>
+      <div className="bg-base-200 rounded-md p-2 mb-2">
         <TopTags tags={results.tags} />
       </div>
-      <hr className="mt-3" />
-      <div>
+      <div className="bg-base-200 rounded-md p-2 mb-2">
         <TopLocations locations={results.locations} />
       </div>
-      <hr className="mt-3" />
     </div>
   );
 };

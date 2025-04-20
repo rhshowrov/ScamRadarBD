@@ -6,12 +6,12 @@ const HomeBar = () => {
   const type = searchParams.get("type"); // Get 'type' from the query string
 
   const getLinkClass = (linkType) =>
-    `border-x-indigo-500 border-x font-bold border-b border-b-indigo-500 p-2 rounded  hover:border-b-3 ${
+    `border-x-indigo-500 border-x border-b bg-black border-b-indigo-500 p-2 rounded  hover:border-b-3 ${
       type === linkType ? "text-blue-600 border-b-2 border-blue-600" : ""
     }`;
 
   return (
-    <div className="flex flex-row rounded justify-between flex-wrap p-2 mb-2">
+    <div className="flex flex-row rounded justify-between bg-base-200 flex-wrap p-2 mb-2">
       <Link to="/sort?type=trending" className={getLinkClass("trending")}>
         Trending
       </Link>

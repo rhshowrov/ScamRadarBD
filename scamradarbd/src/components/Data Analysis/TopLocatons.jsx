@@ -24,7 +24,7 @@ const TopLocations = ({ locations }) => {
           const randomColor = colors[Math.floor(Math.random() * colors.length)];
           return (
             <div
-              className={` p-1 m-1 text-white  rounded-md text-sm font-md ${randomColor}`}
+              className={` p-1 m-1 text-white mb-2  rounded-md text-sm font-md ${randomColor}`}
               key={index}
             >
               {location}
