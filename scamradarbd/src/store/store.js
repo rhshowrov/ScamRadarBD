@@ -4,6 +4,7 @@ import placeSlice from "./place";
 import postSlice from "./postSlice";
 import commentsSlice from "./commentSlice";
 import analyzedDataSlice from "./analyzedDataSlice";
+import profileSlice from "./profileSlice";
 
 
 const store=configureStore({
@@ -13,6 +14,7 @@ const store=configureStore({
         posts:postSlice.reducer,
         comments:commentsSlice.reducer,
         analyzedData:analyzedDataSlice.reducer,
+        profile:profileSlice.reducer,
     }
 })
 
