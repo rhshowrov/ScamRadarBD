@@ -21,6 +21,14 @@ const ProfileBase = () => {
           <span className="pr-2  ">Info</span>
         </NavLink>
         <NavLink
+          to="update"
+          className={({ isActive }) =>
+            isActive ? activeClassName : nonActiveClassName
+          }
+        >
+          <span className="pr-2">Update Profile </span>
+        </NavLink>
+        <NavLink
           to="change_password"
           className={({ isActive }) =>
             isActive ? activeClassName : nonActiveClassName
@@ -28,6 +36,7 @@ const ProfileBase = () => {
         >
           <span className="pr-2">Change Password </span>
         </NavLink>
+        
       </div>
       <Outlet />
     </div>

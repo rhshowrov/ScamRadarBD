@@ -21,6 +21,7 @@ import { injectStore } from "./api/api";
 import ProfileBase from "./components/Profile/ProfileBase.jsx";
 import ProfileDetails from "./components/Profile/ProfileDetails.jsx";
 import ChangePass from "./components/Profile/ChangePass.jsx";
+import ProfileUpdate from "./components/Profile/ProfileUpdate.jsx";
 
 injectStore(store); // This prevents circular import
 const router = createBrowserRouter([
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
           {
             path: "change_password",
             element: <ChangePass />,
+          },
+          {
+            path: "update",
+            element: <ProfileUpdate />,
           },
         ],
       },
