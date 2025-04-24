@@ -1,0 +1,17 @@
+### Signin
+POST http://127.0.0.1:8000/api/user/signin/
+Content-Type: application/json
+
+{
+    "username":"rakib",
+    "password":"rakib1234"
+}
+
+###patch profile
+PATCH http://127.0.0.1:8000/api/user/profile/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NDYwODY1LCJpYXQiOjE3NDU0NTcyNjUsImp0aSI6ImE3ZmNmMzM5NTY0YjQyNDQ4MmFiMzg0NTE4NTExZTg3IiwidXNlcl9pZCI6MX0.MHmESsZhwuGDC9mamlDu9dGbFBi_239WwL6_UOxkJsE
+
+{
+    "username":"rakib12"
+}
