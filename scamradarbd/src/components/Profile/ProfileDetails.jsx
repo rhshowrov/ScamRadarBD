@@ -29,7 +29,7 @@ const ProfileDetails = () => {
           />
           <div className="text-lg">
             {user.first_name
-              ? `${user.first_name} + " " ${user.last_name}`
+              ? `${user.first_name} ${user.last_name}`
               : "Full Name Not Found!"}
           </div>
         </div>

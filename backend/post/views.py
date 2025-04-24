@@ -252,18 +252,15 @@ def dataAnalysis(request):
     tags = Tag.objects.annotate(post_count=Count('posts_tags')) \
                      .order_by('-post_count')[:10] \
                      .values_list('name', flat=True)
-    print(f'Tags are:{tags}')
     site_links = Post.objects.values('link') \
                        .annotate(link_count=Count('id')) \
                        .order_by('-link_count')[:10] \
                        .values_list('link', flat=True)
-    print(f'Site Links are:{site_links}')
     locations=Post.objects.annotate(normalized_locations=Lower('location')) \
               .values('normalized_locations') \
               .annotate(post_count=Count('id')) \
               .order_by('post_count')[:10]\
               .values_list('normalized_locations',flat=True)
-    print(locations)
      # ✅ Send response as JSON
     return Response({
         'tags': list(tags),

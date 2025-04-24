@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser,MultiPartParser, FormParser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -66,7 +66,7 @@ class UserProfileUpdateView(mixins.RetrieveModelMixin,
     serializer_class=UserProfileSerializer
     authentication_classes = [JWTAuthentication]  
     permission_classes = [IsAuthenticated] 
-    parser_classes = [MultiPartParser, FormParser]  # 👈 required for file upload
+    parser_classes = [JSONParser,MultiPartParser, FormParser]  # 👈 required for file upload
     def get_object(self):
         return self.request.user
     def get(self,request,*args,**kwargs):
