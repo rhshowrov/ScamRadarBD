@@ -15,16 +15,12 @@ export const getProfile=createAsyncThunk('user/profile',async(__,{rejectWithValu
 
 export const updateProfile=createAsyncThunk('/profile/update',async(formData,{rejectWithValue})=>{
   try{
-    formData.forEach((value, key) => {
-      console.log(`Form key=${key} and value is=${value}`);
-    });
     const res=await api.patch('api/user/profile/',formData)
     return res.data
   }catch(error){
     if (!error.response){
       return rejectWithValue("Check Server Status")
     }
-    console.log(error.response.data)
     return rejectWithValue(error.response.data)
   }
 })
@@ -32,8 +28,8 @@ export const updateProfile=createAsyncThunk('/profile/update',async(formData,{re
 
 const initialState={
     user:{},
-    error:null,
-    messegae:null,
+    errors:{},
+    message:null,
     loading:true,
 }
 
@@ -41,6 +37,10 @@ const profileSlice=createSlice({
     name:'profile',
     initialState,
     reducers:{
+      clearErrors(state) {
+        state.errors = null;
+        // state.message = null;
+      }
 
     },
     extraReducers:(builder)=>{
@@ -48,38 +48,36 @@ const profileSlice=createSlice({
               .addCase(getProfile.fulfilled,(state,actions)=>{
                 state.loading=false
                 state.user=actions.payload
-                state.messegae='Succesfully get the Data'
-                state.error=null
+                state.message=null
 
               })
               .addCase(getProfile.pending,(state)=>{
                 state.loading=true
-                state.messegae='getting Profile Data'
-                state.error=null
+                state.message=null
               }
             ) .addCase(getProfile.rejected,(state,actions)=>{
                 state.loading=false
-                state.messegae="Couldn't retrive Profile Data"
-                state.error=actions.payload
+                state.message=null
+                state.errors=actions.payload
               }
             )
             .addCase(updateProfile.fulfilled,(state,actions)=>{
               state.loading=false
               state.user=actions.payload
-              state.messegae='Succesfully get the Data'
-              state.error=null
+              state.message='Profile Update Succesfull!'
+              state.errors=null
 
             })
             .addCase(updateProfile.pending,(state)=>{
               state.loading=true
-              state.messegae='getting Profile Data'
-              state.error=null
+              state.message=null
+              state.errors=null
             }
           ) .addCase(updateProfile.rejected,(state,actions)=>{
               state.loading=false
-              state.user=actions.payload
-              state.messegae="Profile update failed!"
-              state.error="error occured!"
+              state.message=null
+              console.log(actions.payload)
+              state.errors=actions.payload
             }
           )
 

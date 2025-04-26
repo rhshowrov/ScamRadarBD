@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile, updateProfile } from "../../store/profileSlice";
+import {
+  getProfile,
+  profileSliceActions,
+  updateProfile,
+} from "../../store/profileSlice";
 
 const ProfileUpdate = () => {
-  const { user } = useSelector((store) => store.profile);
+  const { user, loading, message, errors } = useSelector(
+    (store) => store.profile
+  );
+  console.log(message);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!user || !user.username) {
       dispatch(getProfile());
     }
+    return () => {
+      dispatch(profileSliceActions.clearErrors()); // Cleanup when component unmounts
+    };
   }, [user, dispatch]);
   const [formData, setFormData] = useState({
     username: "",
@@ -47,6 +57,14 @@ const ProfileUpdate = () => {
 
   return (
     <div className="mt-2">
+      {message && (
+        <div
+          role="alert"
+          className="alert w-auto md:w-1/2 mx-auto alert-info alert-soft"
+        >
+          <span>{message}</span>
+        </div>
+      )}
       <form>
         <div className="flex flex-col ">
           <label htmlFor="username" className="font-bold p-1">
@@ -61,6 +79,13 @@ const ProfileUpdate = () => {
               setFormData((prev) => ({ ...prev, username: e.target.value }))
             }
           />
+          {errors && errors.username && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.username}</li>
+              </ul>
+            </div>
+          )}
 
           <label htmlFor="email" className="font-bold p-1">
             Email:
@@ -74,6 +99,13 @@ const ProfileUpdate = () => {
               setFormData((prev) => ({ ...prev, email: e.target.value }))
             }
           />
+          {errors && errors.email && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.email}</li>
+              </ul>
+            </div>
+          )}
 
           <label htmlFor="mobile" className="font-bold p-1">
             Mobile:
@@ -89,6 +121,13 @@ const ProfileUpdate = () => {
               setFormData((prev) => ({ ...prev, mobile: e.target.value }))
             }
           />
+          {errors && errors.mobile && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.mobile}</li>
+              </ul>
+            </div>
+          )}
 
           <label htmlFor="first_name" className="font-bold p-1">
             First Name:
@@ -102,6 +141,13 @@ const ProfileUpdate = () => {
               setFormData((prev) => ({ ...prev, first_name: e.target.value }))
             }
           />
+          {errors && errors.first_name && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.first_name}</li>
+              </ul>
+            </div>
+          )}
 
           <label htmlFor="last_name" className="font-bold p-1">
             Last Name:
@@ -115,6 +161,13 @@ const ProfileUpdate = () => {
               setFormData((prev) => ({ ...prev, last_name: e.target.value }))
             }
           />
+          {errors && errors.last_name && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.last_name}</li>
+              </ul>
+            </div>
+          )}
           <label htmlFor="profile_pic" className="font-bold p-1">
             Profile Picture:
           </label>
@@ -130,14 +183,22 @@ const ProfileUpdate = () => {
               }))
             }
           />
+          {errors && errors.profile_pic && (
+            <div>
+              <ul className="list-disc text-red-500 px-2 ml-5 ">
+                <li>{errors.profile_pic}</li>
+              </ul>
+            </div>
+          )}
         </div>
         <div className="flex my-4">
           <button
             type="submit"
             onClick={handleSubmit}
+            disabled={loading}
             className="h-9 min-w-30 ml-auto bg-red-600 rounded-md p-1 "
           >
-            Update
+            {loading ? "Loading..." : "Update"}
           </button>
         </div>
       </form>
