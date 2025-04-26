@@ -54,16 +54,19 @@ const Header = () => {
         >
           <UserIcon />
         </NavLink>
-        <NavLink
-          to="/notifications"
-          className={({ isActive }) =>
-            `size-7 mt-2 mr-2 hover:border ${
-              isActive ? "scale-130" : "fill-none text-gray-400"
-            }`
-          }
-        >
-          <BellAlertIcon />
-        </NavLink>
+        <div className="flex">
+          <span className="text-pink-400  font-bold z-0 ">12</span>
+          <NavLink
+            to="/notifications"
+            className={({ isActive }) =>
+              `size-7 mt-2 mr-2 hover:border z-20  ${
+                isActive ? "scale-130" : "fill-none text-gray-400"
+              }`
+            }
+          >
+            <BellAlertIcon />
+          </NavLink>
+        </div>
         <NavLink
           to="/bookmarks"
           className={({ isActive }) =>
