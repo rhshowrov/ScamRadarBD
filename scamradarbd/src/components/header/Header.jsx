@@ -7,9 +7,17 @@ import {
   PowerIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getNotifications } from "../../store/notificationSlice";
 
 const Header = () => {
+  const {unseen}=useSelector(store=>store.notifications.data)
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getNotifications())
+  },[dispatch])
   return (
     <div className="flex col-span-1 fixed bg-base-200 top-0 left-0 h-screen md:col-span-2 sticky border-r-1 rounded flex-col w-auto">
       <img className="rounded-full border-b-2" src="/logo.png" alt="logo" />
@@ -55,7 +63,7 @@ const Header = () => {
           <UserIcon />
         </NavLink>
         <div className="flex">
-          <span className="text-pink-400  font-bold z-0 ">12</span>
+          <span className="text-pink-400  font-bold z-0 ">{unseen === 0 ? '' : unseen}</span>
           <NavLink
             to="/notifications"
             className={({ isActive }) =>

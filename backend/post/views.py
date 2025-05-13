@@ -14,6 +14,7 @@ from rest_framework import filters
 from rest_framework.exceptions import APIException
 from django.db.models.functions import Lower
 from rest_framework.throttling import UserRateThrottle
+from .throttle import BookmarkThrottle
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])  # Use JWT authentication
 @permission_classes([IsAuthenticated])   # Ensure the user is authenticated
@@ -269,7 +270,7 @@ def dataAnalysis(request):
     })
 
 
-from .throttle import BookmarkThrottle
+
 
 class ToggleBookmark(APIView):
     permission_classes=[IsAuthenticated]
@@ -298,4 +299,9 @@ class ToggleBookmark(APIView):
              return Response({'error':"Post Does Not exist!"},status=status.HTTP_404_NOT_FOUND)
         bookmark_exist=Bookmark.objects.filter(user=user,post=post).exists()
         return Response({'message':"bookmark Status Retrived","bookmark":bookmark_exist},status=status.HTTP_200_OK)
-        
+
+class SinglePostRetriveView(generics.RetrieveAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostListSerializer
+    lookup_field = 'pk'
+    permission_classes = [AllowAny]
