@@ -22,6 +22,7 @@ import ProfileBase from "./components/Profile/ProfileBase.jsx";
 import ProfileDetails from "./components/Profile/ProfileDetails.jsx";
 import ChangePass from "./components/Profile/ChangePass.jsx";
 import ProfileUpdate from "./components/Profile/ProfileUpdate.jsx";
+import Notifications from "./components/Notification/Notifications.jsx";
 
 injectStore(store); // This prevents circular import
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "create-post",
         element: <CreatePost />,
+      },
+      {
+        path: "notifications",
+        element: <Notifications />,
       },
       {
         path: "profile",

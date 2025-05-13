@@ -5,6 +5,7 @@ import postSlice from "./postSlice";
 import commentsSlice from "./commentSlice";
 import analyzedDataSlice from "./analyzedDataSlice";
 import profileSlice from "./profileSlice";
+import notificationSlice from "./notificationSlice";
 
 
 const store=configureStore({
@@ -15,6 +16,7 @@ const store=configureStore({
         comments:commentsSlice.reducer,
         analyzedData:analyzedDataSlice.reducer,
         profile:profileSlice.reducer,
+        notifications:notificationSlice.reducer
     }
 })
 
